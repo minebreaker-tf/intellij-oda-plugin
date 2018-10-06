@@ -1,0 +1,24 @@
+<idea-plugin>
+    <id>rip.deadcode.intellij-oad-plugin</id>
+    <name>Oxford Dictionaries API Plugin</name>
+    <vendor email="" url=""></vendor>
+
+    <description><![CDATA[
+    Searches given word via Oxford Dictionaries API
+    ]]></description>
+
+    <change-notes><![CDATA[
+    ]]></change-notes>
+
+    <depends>com.intellij.modules.platform</depends>
+    <depends>rip.deadcode.intellij-dictionary-plugin</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <applicationConfigurable instance="rip.deadcode.intellij.oda.OdaSettingPage"/>
+    </extensions>
+
+    <extensions defaultExtensionNs="rip.deadcode.intellij-dictionary-plugin">
+        <dictionary implementation="rip.deadcode.intellij.oda.OdaThesaurusDictionary"/>
+    </extensions>
+
+</idea-plugin>
