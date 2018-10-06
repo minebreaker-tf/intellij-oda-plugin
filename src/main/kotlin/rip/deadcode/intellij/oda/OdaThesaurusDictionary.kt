@@ -1,8 +1,11 @@
 package rip.deadcode.intellij.oda
 
+import com.google.api.client.http.HttpResponseException
+import com.google.common.base.Strings.isNullOrEmpty
 import rip.deadcode.intellij.dictionary.Dictionary
 import rip.deadcode.intellij.oda.model.ThesaurusFormatter
 import rip.deadcode.intellij.oda.utils.OdaPasswords
+import java.io.IOException
 
 class OdaThesaurusDictionary : Dictionary {
 
@@ -15,13 +18,25 @@ class OdaThesaurusDictionary : Dictionary {
         val id = OdaPasswords.getId()
         val key = OdaPasswords.getKey()
 
-        if (id == null || key == null) {
+        if (isNullOrEmpty(id) || isNullOrEmpty(key)) {
             return "<div>Oxford API AppID/AppKey is not set.</div>"
         }
 
-        val result = OdaFinder.findSynonyms(OdaFinder.defaultHttpTransport, OdaFinder.gson, id, key, word)
-        return if (result != null) {
-            ThesaurusFormatter.format(result)
-        } else null
+        return try {
+            val result = OdaFinder.findSynonyms(OdaFinder.defaultHttpTransport, OdaFinder.gson, id!!, key!!, word)
+            if (result != null) {
+                ThesaurusFormatter.format(result)
+            } else null
+        } catch (e: HttpResponseException) {
+            when (e.statusCode) {
+                400 -> "<p>400 Bad Request. This may be a plugin bug.</p>"
+                403 -> "<p>403 Authentication failed. Your Oxford Dictionaries API AppID/AppKey may be wrong.</p>"
+                500, 502, 503, 504 -> "<p>Server error. Oxford Dictionaries API is down.</p>"
+                else -> "<p>Unexpected HTTP error.</p>"
+            }
+
+        } catch (e: IOException) {
+            "<p>Failed to connect. The server seems to be down.</p>"
+        }
     }
 }
