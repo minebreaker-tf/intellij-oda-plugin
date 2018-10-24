@@ -1,4 +1,6 @@
-package rip.deadcode.intellij.oda.model
+package rip.deadcode.intellij.oda.formatter
+
+import rip.deadcode.intellij.oda.model.*
 
 object ThesaurusFormatter {
 
@@ -24,7 +26,7 @@ object ThesaurusFormatter {
 
         val variants = thesaurusEntry.variantForms
         val variantsResult = if (variants != null && variants.isNotEmpty()) {
-            "<p>Variants: ${thesaurusEntry.variantForms.asSequence().map { format(it) }.joinToString(", ")}</p>"
+            "<p>Variants: ${thesaurusEntry.variantForms.asSequence().map { SharedFormatter.format(it) }.joinToString(", ")}</p>"
         } else ""
 
         val senses = thesaurusEntry.senses
@@ -33,10 +35,6 @@ object ThesaurusFormatter {
         } else ""
 
         return "<div>${sensesResult}${variantsResult}</div>"
-    }
-
-    fun format(variantForm: VariantForm): String {
-        return """[${variantForm.regions.joinToString(", ")}] ${variantForm.text}"""
     }
 
     fun format(thesaurusSense: ThesaurusSense, indent: Int = 0): String {
@@ -49,7 +47,9 @@ object ThesaurusFormatter {
         } else ""
 
         val subsenses = if (thesaurusSense.subsenses != null && thesaurusSense.subsenses.isNotEmpty()) {
-            "<div><h4>Subsenses</h4>" + thesaurusSense.subsenses.asSequence().map { format(it, indent + 1) }.joinToString("") + "</div>"
+            "<div><h4>Subsenses</h4>" + thesaurusSense.subsenses.asSequence()
+                    .map { format(it, indent + 1) }
+                    .joinToString("") + "</div>"
         } else ""
 
         return senses + subsenses

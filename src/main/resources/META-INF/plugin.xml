@@ -19,6 +19,7 @@
     </extensions>
 
     <extensions defaultExtensionNs="rip.deadcode.intellij-dictionary-plugin">
+        <dictionary implementation="rip.deadcode.intellij.oda.OdaEnglishDictionary"/>
         <dictionary implementation="rip.deadcode.intellij.oda.OdaThesaurusDictionary"/>
     </extensions>
 

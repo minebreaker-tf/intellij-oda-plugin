@@ -1,12 +1,12 @@
-package rip.deadcode.intellij.oda
+package rip.deadcode.intellij.oda.formatter
 
 import com.google.common.truth.Truth.assertThat
 import com.google.gson.Gson
 import org.junit.jupiter.api.Test
+import rip.deadcode.intellij.oda.formatter.ThesaurusFormatter.format
 import rip.deadcode.intellij.oda.model.*
-import rip.deadcode.intellij.oda.model.ThesaurusFormatter.format
 
-internal class OdaThesaurusDictionaryTest {
+internal class ThesaurusFormatterTest {
 
     @Test
     fun testFormat() {
@@ -38,16 +38,6 @@ internal class OdaThesaurusDictionaryTest {
     }
 
     @Test
-    fun testFormatVariantForms() {
-        val param = Gson().fromJson("""{
-            "text": "Text",
-            "regions": [ "Region1", "Region2" ]
-        }""", VariantForm::class.java)
-        val result = format(param)
-        assertThat(result).isEqualTo("[Region1, Region2] Text")
-    }
-
-    @Test
     fun testFormatThesaurusSense() {
         val param = Gson().fromJson("""{
             "synonyms": [
@@ -67,7 +57,6 @@ internal class OdaThesaurusDictionaryTest {
     fun testFormatSynonymAntonym() {
         val param = Gson().fromJson("""{
             "domains": ["Domain1", "Domain2"],
-            "id": "ID",
             "regions": ["Region1", "Region2"],
             "text": "FooBar"
         }""".trimIndent(), SynonymAntonym::class.java)
@@ -75,7 +64,7 @@ internal class OdaThesaurusDictionaryTest {
         assertThat(result).isEqualTo("""<p><span>[Region1,Region2]</span><span>FooBar</span><span>(Domain1,Domain2)</span></p>""")
     }
 
-    val json = """{
+    private val json = """{
   "metadata": {
     "provider": "Oxford University Press"
   },
@@ -547,5 +536,5 @@ internal class OdaThesaurusDictionaryTest {
   ]
 }"""
 
-    val jsonResult = "<div><div><span>[Noun]</span><div><p><span>expert</span></p><p><span>master</span></p><p><span>genius</span></p><p><span>virtuoso</span></p><p><span>maestro</span></p><p><span>professional</span></p><p><span>adept</span></p><p><span>past master</span></p><p><span>doyen</span></p><p><span>champion</span></p><p><span>star</span></p><p><span>winner</span></p><div><h4>Subsenses</h4><p><span>wunderkind</span></p><p><span>demon</span></p><p><span>pro</span></p><p><span>wizard</span></p><p><span>hotshot</span></p><p><span>whizz</span></p><p><span>wiz</span></p><p><span>ninja</span></p><p><span>dab hand</span></p><p><span>maven</span></p><p><span>crackerjack</span></p></div></div></div><div><span>[Adjective]</span><div><p><span>excellent</span></p><p><span>very good</span></p><p><span>first-rate</span></p><p><span>first-class</span></p><p><span>marvellous</span></p><p><span>wonderful</span></p><p><span>magnificent</span></p><p><span>outstanding</span></p><p><span>superlative</span></p><p><span>formidable</span></p><p><span>virtuoso</span></p><p><span>masterly</span></p><p><span>expert</span></p><p><span>champion</span></p><p><span>fine</span></p><p><span>consummate</span></p><p><span>skilful</span></p><p><span>adept</span></p><div><h4>Subsenses</h4><p><span>great</span></p><p><span>terrific</span></p><p><span>tremendous</span></p><p><span>superb</span></p><p><span>smashing</span></p><p><span>fantastic</span></p><p><span>stellar</span></p><p><span>sensational</span></p><p><span>fabulous</span></p><p><span>fab</span></p><p><span>crack</span></p><p><span>hotshot</span></p><p><span>A1</span></p><p><span>mean</span></p><p><span>demon</span></p><p><span>awesome</span></p><p><span>magic</span></p><p><span>wicked</span></p><p><span>tip-top</span></p><p><span>top-notch</span></p><p><span>brilliant</span></p><p><span>brill</span></p><p><span>badass</span></p><p><span>shit-hot</span></p></div></div></div></div>"
+   private  val jsonResult = "<div><div><span>[Noun]</span><div><p><span>expert</span></p><p><span>master</span></p><p><span>genius</span></p><p><span>virtuoso</span></p><p><span>maestro</span></p><p><span>professional</span></p><p><span>adept</span></p><p><span>past master</span></p><p><span>doyen</span></p><p><span>champion</span></p><p><span>star</span></p><p><span>winner</span></p><div><h4>Subsenses</h4><p><span>wunderkind</span></p><p><span>demon</span></p><p><span>pro</span></p><p><span>wizard</span></p><p><span>hotshot</span></p><p><span>whizz</span></p><p><span>wiz</span></p><p><span>ninja</span></p><p><span>dab hand</span></p><p><span>maven</span></p><p><span>crackerjack</span></p></div></div></div><div><span>[Adjective]</span><div><p><span>excellent</span></p><p><span>very good</span></p><p><span>first-rate</span></p><p><span>first-class</span></p><p><span>marvellous</span></p><p><span>wonderful</span></p><p><span>magnificent</span></p><p><span>outstanding</span></p><p><span>superlative</span></p><p><span>formidable</span></p><p><span>virtuoso</span></p><p><span>masterly</span></p><p><span>expert</span></p><p><span>champion</span></p><p><span>fine</span></p><p><span>consummate</span></p><p><span>skilful</span></p><p><span>adept</span></p><div><h4>Subsenses</h4><p><span>great</span></p><p><span>terrific</span></p><p><span>tremendous</span></p><p><span>superb</span></p><p><span>smashing</span></p><p><span>fantastic</span></p><p><span>stellar</span></p><p><span>sensational</span></p><p><span>fabulous</span></p><p><span>fab</span></p><p><span>crack</span></p><p><span>hotshot</span></p><p><span>A1</span></p><p><span>mean</span></p><p><span>demon</span></p><p><span>awesome</span></p><p><span>magic</span></p><p><span>wicked</span></p><p><span>tip-top</span></p><p><span>top-notch</span></p><p><span>brilliant</span></p><p><span>brill</span></p><p><span>badass</span></p><p><span>shit-hot</span></p></div></div></div></div>"
 }
