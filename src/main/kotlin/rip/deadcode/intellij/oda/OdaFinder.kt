@@ -47,7 +47,7 @@ object OdaFinder {
         } catch (e: HttpResponseException) {
             when (e.statusCode) {
                 400 -> "<p>400 Bad Request. This may be a plugin bug.</p>"
-                403 -> "<p>403 Authentication failed. Your Oxford Dictionaries API AppID/AppKey may be wrong.</p>"
+                403 -> "<p>403 Authentication failed. Your Oxford Dictionaries API AppID/AppKey may be wrong, or you reached the API usage limit.</p>"
                 404 -> null
                 500, 502, 503, 504 -> "<p>Server error. Oxford Dictionaries API is down.</p>"
                 else -> "<p>Unexpected HTTP error.</p>"
