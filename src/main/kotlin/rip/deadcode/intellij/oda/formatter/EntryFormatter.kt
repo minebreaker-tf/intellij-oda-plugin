@@ -21,7 +21,10 @@ object EntryFormatter {
     fun format(lexicalEntry: LexicalEntry): String {
         return if (lexicalEntry.entries != null) {
             val entries = lexicalEntry.entries.asSequence().map { format(it) }.joinToString("")
-            "<div><p>[${lexicalEntry.lexicalCategory}]</p>${entries}</div>"
+            val ref = if (lexicalEntry.derivativeOf != null) {
+                "<p>See: " + lexicalEntry.derivativeOf.asSequence().map { it.text }.joinToString(", ") + "</p>"
+            } else ""
+            "<div><p>[${lexicalEntry.lexicalCategory}]</p>${entries}${ref}</div>"
         } else ""
     }
 

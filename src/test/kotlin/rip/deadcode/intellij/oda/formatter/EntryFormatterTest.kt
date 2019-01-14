@@ -36,10 +36,11 @@ class EntryFormatterTest {
             "lexicalCategory": "Noun",
             "entries": [
                 { "senses": [ { "definitions": ["Definition"] } ] }
-            ]
+            ],
+            "derivativeOf": [ { "text": "foo" }, { "text": "bar" } ]
         }""".trimIndent(), LexicalEntry::class.java)
         val result = EntryFormatter.format(param)
-        assertThat(result).isEqualTo("""<div><p>[Noun]</p><div><p><span>Definition</span></p></div></div>""")
+        assertThat(result).isEqualTo("""<div><p>[Noun]</p><div><p><span>Definition</span></p></div><p>See: foo, bar</p></div>""")
     }
 
 
