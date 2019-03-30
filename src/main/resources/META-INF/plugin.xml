@@ -1,8 +1,8 @@
 <idea-plugin>
     <id>rip.deadcode.intellij-oad-plugin</id>
     <name>Oxford Dictionaries API</name>
-    <version>0.1.1</version>
-    <vendor email="" url=""></vendor>
+    <version>0.1.2</version>
+    <vendor email="" url="">minebreaker</vendor>
 
     <description><![CDATA[
     Searches given word via Oxford Dictionaries API
@@ -12,7 +12,6 @@
     No change notes. Still in the alpha status.
     ]]></change-notes>
 
-    <idea-version since-build="183"/>
     <depends>com.intellij.modules.platform</depends>
     <depends>rip.deadcode.intellij-dictionary-plugin</depends>
 
