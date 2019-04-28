@@ -20,7 +20,7 @@ data class HeadwordThesaurus(
 data class ThesaurusLexicalEntry(
         val entries: List<ThesaurusEntry>?,
         val language: String,
-        val lexicalCategory: String,
+        val lexicalCategory: LexicalCategory,
         val text: String,
         val variantForms: List<VariantForm>?
 )
@@ -33,20 +33,20 @@ data class ThesaurusEntry(
 
 data class ThesaurusSense(
         val antonyms: List<SynonymAntonym>?,
-        val domains: List<String>?,
+        val domains: List<Domain>?,
         val examples: List<Example>?,
         val id: String?,
-        val regions: List<String>?,
-        val registers: List<String>?,
+        val regions: List<Region>?,
+        val registers: List<Register>?,
         val subsenses: List<ThesaurusSense>?,
         val synonyms: List<SynonymAntonym>?
 )
 
 data class SynonymAntonym(
-        val domains: List<String>?,
+        val domains: List<Domain>?,
         val id: String,
         val language: String?,
-        val regions: List<String>?,
-        val registers: List<String>?,
+        val regions: List<Region>?,
+        val registers: List<Register>?,
         val text: String
 )

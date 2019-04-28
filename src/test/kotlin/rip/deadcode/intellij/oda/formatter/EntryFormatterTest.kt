@@ -17,7 +17,7 @@ class EntryFormatterTest {
                 {
                     "lexicalEntries": [
                         {
-                            "lexicalCategory": "Noun",
+                            "lexicalCategory": { "id": "noun", "text": "Noun" },
                             "entries": [
                                 { "senses": [ { "definitions": ["Definition"] } ] }
                             ]
@@ -33,7 +33,7 @@ class EntryFormatterTest {
     @Test
     fun testFormatLexicalEntry() {
         val param = Gson().fromJson("""{
-            "lexicalCategory": "Noun",
+            "lexicalCategory": { "id": "noun", "text": "Noun" },
             "entries": [
                 { "senses": [ { "definitions": ["Definition"] } ] }
             ],
@@ -59,8 +59,8 @@ class EntryFormatterTest {
     @Test
     fun testFormatSense() {
         val param = Gson().fromJson("""{
-            "domains": ["Domain1", "Domain2"],
-            "regions": ["Region1", "Region2"],
+            "domains": [ { "id": "domain1", "text": "Domain1" }, { "id": "domain2", "text": "Domain2" } ],
+            "regions": [ { "id": "region1", "text": "Region1" }, { "id": "region2", "text": "Region2" } ],
             "definitions": ["Definition1", "Definition2"]
         }""".trimIndent(), Sense::class.java)
         val result = EntryFormatter.format(param)

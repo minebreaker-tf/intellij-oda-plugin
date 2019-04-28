@@ -17,17 +17,19 @@ internal class ThesaurusFormatterTest {
             "entries": [{
                 "senses": [{ "synonyms": [{ "text": "Text" }] }]
             }],
-            "lexicalCategory": "Category"
+            "lexicalCategory": { "id": "noun", "text": "Noun" }
         }""", ThesaurusLexicalEntry::class.java)
         val result = format(param)
-        assertThat(result).isEqualTo("<div><span>[Category]</span><div><p><span>Text</span></p></div></div>")
+        assertThat(result).isEqualTo("<div><span>[Noun]</span><div><p><span>Text</span></p></div></div>")
     }
 
     @Test
     fun testFormatThesaurusEntry() {
         val param = Gson().fromJson("""{
             "senses": [{ "synonyms": [{ "text": "Text" }] }],
-            "variantForms": [{ "text": "Var1", "regions": [ "Reg1" ] }, { "text": "Var2", "regions": [ "Reg2" ] }]
+            "variantForms": [
+                { "text": "Var1", "regions": [ { "id": "reg1", "text": "Reg1" } ] }, { "text": "Var2", "regions": [ { "id": "reg2", "text": "Reg2" } ] }
+            ]
         }""", ThesaurusEntry::class.java)
         val result = format(param)
         assertThat(result).isEqualTo("<div><p><span>Text</span></p><p>Variants: [Reg1] Var1, [Reg2] Var2</p></div>")
@@ -52,8 +54,8 @@ internal class ThesaurusFormatterTest {
     @Test
     fun testFormatSynonymAntonym() {
         val param = Gson().fromJson("""{
-            "domains": ["Domain1", "Domain2"],
-            "regions": ["Region1", "Region2"],
+            "domains": [ { "id": "domain1", "text": "Domain1" }, { "id": "domain2", "text": "Domain2" } ],
+            "regions": [ { "id": "region1", "text": "Region1" }, { "id": "region2", "text": "Region2" } ],
             "text": "FooBar"
         }""".trimIndent(), SynonymAntonym::class.java)
         val result = format(param)

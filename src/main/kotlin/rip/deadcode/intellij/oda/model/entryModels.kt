@@ -21,13 +21,18 @@ data class LexicalEntry(
         val derivativeOf: List<RelatedEntry>?,
         val derivatives: List<RelatedEntry>?,
         val entries: List<Entry>?,
-        val grammaticalFeatures: GrammaticalFeature?,
+        val grammaticalFeatures: List<GrammaticalFeature>?,
         val language: String,
-        val lexicalCategory: String,
+        val lexicalCategory: LexicalCategory,
         val notes: List<CategorizedText>?,
         val pronunciations: List<Pronunciation>?,
         val text: String,
         val variantForms: List<VariantForm>?
+)
+
+data class LexicalCategory(
+        val id: String,
+        val text: String
 )
 
 data class Pronunciation(
@@ -39,7 +44,7 @@ data class Pronunciation(
 )
 
 data class RelatedEntry(
-        val domains: List<String>?,
+        val domains: List<Domain>?,
         val id: String,
         val language: String?,
         val regions: List<String>?,
@@ -60,17 +65,15 @@ data class Sense(
         val crossReferenceMarkers: List<String>?,
         val crossReference: List<CrossReference>?,
         val definitions: List<String>?,
-        val domains: List<String>?,
+        val domains: List<Domain>?,
         val examples: List<Example>?,
         val id: String?,
         val notes: List<CategorizedText>?,
         val pronunciations: List<Pronunciation>?,
-        val regions: List<String>?,
-        @SerializedName("short_definitions")
+        val regions: List<Region>?,
         val shortDefinitions: List<String>?,
         val subsenses: List<Sense>?,
         val thesaurusLinks: List<ThesaurusLink>?,
-        val translations: List<Translation>?,
         val variantForms: List<VariantForm>?
 )
 

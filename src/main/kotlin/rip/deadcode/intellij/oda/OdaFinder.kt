@@ -5,6 +5,7 @@ import com.google.api.client.http.HttpResponseException
 import com.google.api.client.http.javanet.NetHttpTransport
 import com.google.common.base.Strings
 import com.google.gson.Gson
+import com.google.gson.JsonParseException
 import rip.deadcode.intellij.oda.utils.OdaPasswords
 import java.io.IOException
 import java.io.InputStreamReader
@@ -12,7 +13,7 @@ import java.nio.charset.StandardCharsets
 
 object OdaFinder {
 
-    const val endpoint = "https://od-api.oxforddictionaries.com/api/v1"
+    const val endpoint = "https://od-api.oxforddictionaries.com/api/v2"
 
     // TODO DI
     private val defaultHttpTransport = NetHttpTransport()
@@ -49,12 +50,14 @@ object OdaFinder {
                 400 -> "<p>400 Bad Request. This may be a plugin bug.</p>"
                 403 -> "<p>403 Authentication failed. Your Oxford Dictionaries API AppID/AppKey may be wrong, or you reached the API usage limit.</p>"
                 404 -> null
-                500, 502, 503, 504 -> "<p>Server error. Oxford Dictionaries API is down.</p>"
-                else -> "<p>Unexpected HTTP error.</p>"
+                500, 502, 503, 504 -> "<p>Server error. Oxford Dictionaries API seems to be down.</p>"
+                else -> "<p>Unexpected HTTP error.<br/>${e.statusCode} ${e.statusMessage}</p>"
             }
 
         } catch (e: IOException) {
             "<p>Failed to connect. The server seems to be down.</p>"
+        } catch (e: JsonParseException) {
+            "<p>Failed to parse json. This may be a plugin bug.</p>"
         }
     }
 

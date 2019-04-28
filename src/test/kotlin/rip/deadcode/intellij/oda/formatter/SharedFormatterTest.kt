@@ -11,7 +11,7 @@ internal class SharedFormatterTest {
     fun testFormatVariantForms() {
         val param = Gson().fromJson("""{
             "text": "Text",
-            "regions": [ "Region1", "Region2" ]
+            "regions": [ { "id": "region1", "text": "Region1" }, { "id": "region2", "text": "Region2" } ]
         }""", VariantForm::class.java)
         val result = SharedFormatter.format(param)
         assertThat(result).isEqualTo("[Region1, Region2] Text")

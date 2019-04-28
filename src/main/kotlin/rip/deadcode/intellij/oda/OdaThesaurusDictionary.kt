@@ -13,7 +13,7 @@ class OdaThesaurusDictionary : Dictionary {
     override fun lookUp(word: String): String? {
         return OdaFinder.request(
                 word,
-                "${OdaFinder.endpoint}/entries/en/${word}/synonyms",
+                "${OdaFinder.endpoint}/thesaurus/en/${word}",
                 Thesaurus::class.java,
                 ThesaurusFormatter::format
         )

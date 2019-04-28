@@ -1,6 +1,11 @@
 package rip.deadcode.intellij.oda.formatter
 
-import rip.deadcode.intellij.oda.model.*
+import rip.deadcode.intellij.oda.formatter.SharedFormatter.format
+import rip.deadcode.intellij.oda.model.SynonymAntonym
+import rip.deadcode.intellij.oda.model.Thesaurus
+import rip.deadcode.intellij.oda.model.ThesaurusEntry
+import rip.deadcode.intellij.oda.model.ThesaurusLexicalEntry
+import rip.deadcode.intellij.oda.model.ThesaurusSense
 
 object ThesaurusFormatter {
 
@@ -18,7 +23,7 @@ object ThesaurusFormatter {
     fun format(thesaurusLexicalEntry: ThesaurusLexicalEntry): String {
         return if (thesaurusLexicalEntry.entries != null) {
             val entries = thesaurusLexicalEntry.entries.asSequence().map { format(it) }.joinToString("")
-            "<div><span>[${thesaurusLexicalEntry.lexicalCategory}]</span>${entries}</div>"
+            "<div><span>[${format(thesaurusLexicalEntry.lexicalCategory)}]</span>${entries}</div>"
         } else ""
     }
 
@@ -26,7 +31,7 @@ object ThesaurusFormatter {
 
         val variants = thesaurusEntry.variantForms
         val variantsResult = if (variants != null && variants.isNotEmpty()) {
-            "<p>Variants: ${thesaurusEntry.variantForms.asSequence().map { SharedFormatter.format(it) }.joinToString(", ")}</p>"
+            "<p>Variants: ${thesaurusEntry.variantForms.asSequence().map { format(it) }.joinToString(", ")}</p>"
         } else ""
 
         val senses = thesaurusEntry.senses
@@ -56,8 +61,16 @@ object ThesaurusFormatter {
     }
 
     fun format(synonym: SynonymAntonym): String {
-        val region = if (synonym.regions != null && synonym.regions.isNotEmpty()) "<span>[" + synonym.regions.joinToString(",") + "]</span>" else ""
-        val domain = if (synonym.domains != null && synonym.domains.isNotEmpty()) "<span>(" + synonym.domains.joinToString(",") + ")</span>" else ""
+        val region = if (synonym.regions != null && synonym.regions.isNotEmpty()) {
+            "<span>[" + synonym.regions.joinToString(",") { format(it) } + "]</span>"
+        } else {
+            ""
+        }
+        val domain = if (synonym.domains != null && synonym.domains.isNotEmpty()) {
+            "<span>(" + synonym.domains.joinToString(",") { format(it) } + ")</span>"
+        } else {
+            ""
+        }
         return "<p>" + region + "<span>" + synonym.text + "</span>" + domain + "</p>"
     }
 }

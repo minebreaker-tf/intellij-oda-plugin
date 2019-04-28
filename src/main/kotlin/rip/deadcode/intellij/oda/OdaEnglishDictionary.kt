@@ -13,7 +13,7 @@ class OdaEnglishDictionary : Dictionary {
     override fun lookUp(word: String): String? {
         return OdaFinder.request(
                 word,
-                "${OdaFinder.endpoint}/entries/en/${word}",
+                "${OdaFinder.endpoint}/entries/en-us/${word}",  // TODO locale
                 RetrieveEntry::class.java,
                 EntryFormatter::format
         )

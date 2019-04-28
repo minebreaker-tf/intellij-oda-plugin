@@ -1,7 +1,26 @@
 package rip.deadcode.intellij.oda.model
 
 data class VariantForm(
-        val regions: List<String>?,
+        val domains: List<Domain>,
+        val notes: List<CategorizedText>?,
+        val pronunciations: List<Pronunciation>?,
+        val regions: List<Region>?,
+        val registers: List<Register>?,
+        val text: String
+)
+
+data class Domain(
+        val id: String,
+        val text: String
+)
+
+data class Region(
+        val id: String,
+        val text: String
+)
+
+data class Register(
+        val id: String,
         val text: String
 )
 
@@ -18,21 +37,10 @@ data class CategorizedText(
 
 data class Example(
         val definitions: List<String>?,
-        val domains: List<String>?,
+        val domains: List<Domain>?,
         val notes: List<CategorizedText>?,
-        val regions: List<String>?,
-        val registers: List<String>?,
+        val regions: List<Region>?,
+        val registers: List<Register>?,
         val senseIds: List<String>?,
-        val text: String,
-        val translations: List<Translation>?
-)
-
-data class Translation(
-        val domains: List<String>?,
-        val grammaticalFeatures: List<GrammaticalFeature>?,
-        val language: String,
-        val notes: List<CategorizedText>?,
-        val regions: List<String>?,
-        val registers: List<String>?,
         val text: String
 )

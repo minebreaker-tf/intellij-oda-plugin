@@ -1,5 +1,6 @@
 package rip.deadcode.intellij.oda.formatter
 
+import rip.deadcode.intellij.oda.formatter.SharedFormatter.format
 import rip.deadcode.intellij.oda.model.Entry
 import rip.deadcode.intellij.oda.model.LexicalEntry
 import rip.deadcode.intellij.oda.model.RetrieveEntry
@@ -24,7 +25,7 @@ object EntryFormatter {
             val ref = if (lexicalEntry.derivativeOf != null) {
                 "<p>See: " + lexicalEntry.derivativeOf.asSequence().map { it.text }.joinToString(", ") + "</p>"
             } else ""
-            "<div><p>[${lexicalEntry.lexicalCategory}]</p>${entries}${ref}</div>"
+            "<div><p>[${format(lexicalEntry.lexicalCategory)}]</p>${entries}${ref}</div>"
         } else ""
     }
 
@@ -32,7 +33,7 @@ object EntryFormatter {
 
         val variants = entry.variantForms
         val variantsResult = if (variants != null && variants.isNotEmpty()) {
-            "<p>Variants: ${entry.variantForms.asSequence().map { SharedFormatter.format(it) }.joinToString(", ")}</p>"
+            "<p>Variants: ${entry.variantForms.asSequence().map { format(it) }.joinToString(", ")}</p>"
         } else ""
 
         val senses = entry.senses
@@ -45,11 +46,19 @@ object EntryFormatter {
 
     fun format(sense: Sense, indent: Int = 0): String {
 
-        val region = if (sense.regions != null && sense.regions.isNotEmpty()) "<span>[" + sense.regions.joinToString(",") + "]</span>" else ""
+        val region = if (sense.regions != null && sense.regions.isNotEmpty()) {
+            "<span>[" + sense.regions.joinToString(",") { format(it) } + "]</span>"
+        } else {
+            ""
+        }
         val definitions = if (sense.definitions != null && sense.definitions.isNotEmpty()) {
             "<span>" + sense.definitions.joinToString(",") + "</span>"
         } else ""
-        val domain = if (sense.domains != null && sense.domains.isNotEmpty()) "<span>(" + sense.domains.joinToString(",") + ")</span>" else ""
+        val domain = if (sense.domains != null && sense.domains.isNotEmpty()) {
+            "<span>(" + sense.domains.joinToString(",") { format(it) } + ")</span>"
+        } else {
+            ""
+        }
 
         val subsenses = if (sense.subsenses != null && sense.subsenses.isNotEmpty()) {
             "<div><h4>Subsenses</h4>" + sense.subsenses.asSequence()
