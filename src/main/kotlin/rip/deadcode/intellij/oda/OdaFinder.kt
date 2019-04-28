@@ -5,7 +5,6 @@ import com.google.api.client.http.HttpResponseException
 import com.google.api.client.http.javanet.NetHttpTransport
 import com.google.common.base.Strings
 import com.google.gson.Gson
-import com.google.gson.JsonParseException
 import rip.deadcode.intellij.oda.utils.OdaPasswords
 import java.io.IOException
 import java.io.InputStreamReader
@@ -56,9 +55,10 @@ object OdaFinder {
 
         } catch (e: IOException) {
             "<p>Failed to connect. The server seems to be down.</p>"
-        } catch (e: JsonParseException) {
-            "<p>Failed to parse json. This may be a plugin bug.</p>"
         }
+//        catch (e: JsonParseException) {
+//            "<p>Failed to parse json. This may be a plugin bug.</p>"
+//        }
     }
 
     /**

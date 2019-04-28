@@ -40,14 +40,14 @@ data class Pronunciation(
         val dialects: List<String>?,
         val phoneticNotation: String?,
         val phoneticSpelling: String?,
-        val regions: List<String>?
+        val regions: List<Region>?
 )
 
 data class RelatedEntry(
         val domains: List<Domain>?,
         val id: String,
         val language: String?,
-        val regions: List<String>?,
+        val regions: List<Region>?,
         val text: String
 )
 
